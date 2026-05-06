@@ -1,4 +1,7 @@
 manifest:
+  # NOTE: when ZMK ships a new stable tag, bump `revision` below AND the
+  # matching `@v0.3` in .github/workflows/build.yml to keep firmware on a
+  # reproducible release. See https://github.com/zmkfirmware/zmk/tags
   defaults:
     revision: v0.3
   remotes:

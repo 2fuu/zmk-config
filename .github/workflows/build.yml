@@ -1,6 +1,9 @@
 name: Build ZMK firmware
 on: [push, pull_request, workflow_dispatch]
 
+# NOTE: when ZMK ships a new stable tag, bump the `@v0.3` below AND the
+# matching `revision: v0.3` in config/west.yml. Latest tags:
+# https://github.com/zmkfirmware/zmk/tags
 jobs:
   build:
     uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3

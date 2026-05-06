@@ -9,6 +9,47 @@
 #include <dt-bindings/zmk/keys.h>
 
 / {
+    behaviors {
+        // Press: select / clear current Bluetooth profile.
+        // Shift + press: disconnect / clear all profiles.
+        bt_clr: bt_clr {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&bt BT_CLR>, <&bt BT_CLR_ALL>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+        bt_0: bt_0 {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&bt BT_SEL 0>, <&bt BT_DISC 0>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+        bt_1: bt_1 {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&bt BT_SEL 1>, <&bt BT_DISC 1>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+        bt_2: bt_2 {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&bt BT_SEL 2>, <&bt BT_DISC 2>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+        bt_3: bt_3 {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&bt BT_SEL 3>, <&bt BT_DISC 3>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+        bt_4: bt_4 {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&bt BT_SEL 4>, <&bt BT_DISC 4>;
+            mods = <(MOD_LSFT|MOD_RSFT)>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
@@ -31,14 +72,18 @@
             // -----------------------------------------------------------------------------------------
             // |  TAB |  1  |  2  |  3  |  4  |  5  |   |  6  |  7  |  8  |  9  |  0  | BKSP |
             // | BTCLR| BT1 | BT2 | BT3 | BT4 | BT5 |   | LFT | DWN |  UP | RGT |     |      |
-            // | SHFT |     |     |     |     |     |   |     |     |     |     |     |      |
+            // | SHFT |     |     |     |     |     |   |     |     |     |     |     | OFF  |
             //                    | GUI |     | SPC |   | ENT |     | ALT |
+            //
+            // BT keys on row 2: press = select / clear current profile.
+            // Hold Shift + press   = disconnect / clear ALL profiles.
+            // Bottom-right pinky (OFF) = hold 1s for soft-off, wake by reset button.
 
             bindings = <
-&kp TAB     &kp N1        &kp N2        &kp N3        &kp N4        &kp N5          &kp N6    &kp N7    &kp N8    &kp N9     &kp N0  &kp BSPC
-&bt BT_CLR  &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4    &kp LEFT  &kp DOWN  &kp UP    &kp RIGHT  &trans  &trans
-&kp LSHFT   &trans        &trans        &trans        &trans        &trans          &trans    &trans    &trans    &trans     &trans  &trans
-                                        &kp LGUI      &trans        &kp SPACE       &kp RET   &trans    &kp RALT
+&kp TAB    &kp N1  &kp N2  &kp N3    &kp N4  &kp N5       &kp N6    &kp N7    &kp N8  &kp N9     &kp N0  &kp BSPC
+&bt_clr    &bt_0   &bt_1   &bt_2     &bt_3   &bt_4        &kp LEFT  &kp DOWN  &kp UP  &kp RIGHT  &trans  &trans
+&kp LSHFT  &trans  &trans  &trans    &trans  &trans       &trans    &trans    &trans  &trans     &trans  &soft_off
+                           &kp LGUI  &trans  &kp SPACE    &kp RET   &trans    &kp RALT
             >;
         };
 
@@ -57,4 +102,10 @@
             >;
         };
     };
+};
+
+// Require a 1-second hold on the &soft_off key to actually power off,
+// preventing accidental shutdowns from a stray combo on the lower layer.
+&soft_off {
+    hold-time-ms = <1000>;
 };
